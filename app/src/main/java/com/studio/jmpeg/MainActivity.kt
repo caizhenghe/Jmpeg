@@ -2,35 +2,29 @@ package com.studio.jmpeg
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
+import com.studio.jmpeg.avinfo.JNIAvInfo
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        // Example of a call to a native method
-        findViewById<TextView>(R.id.sample_text).text = stringFromJNI()
-    }
-
-    /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     */
-    external fun stringFromJNI(): String
-
-    companion object {
-        // Used to load the 'native-lib' library on application startup.
-        init {
-            System.loadLibrary("avcodec-57");
-            System.loadLibrary("avdevice-57");
-            System.loadLibrary("avfilter-6");
-            System.loadLibrary("avformat-57");
-            System.loadLibrary("avutil-55");
-            System.loadLibrary("postproc-54");
-            System.loadLibrary("swresample-2");
-            System.loadLibrary("swscale-4");
-            System.loadLibrary("jmpeg")
+        val tvAvInfo = findViewById<TextView>(R.id.tv_av_info)
+        findViewById<Button>(R.id.btn_url_protocol_info).setOnClickListener {
+            tvAvInfo.text = JNIAvInfo.getUrlProtocolInfo()
+        }
+        findViewById<Button>(R.id.btn_av_format_info).setOnClickListener {
+            tvAvInfo.text = JNIAvInfo.getAvFormatInfo()
+        }
+        findViewById<Button>(R.id.btn_av_codec_info).setOnClickListener {
+            tvAvInfo.text = JNIAvInfo.getAvCodecInfo()
+        }
+        findViewById<Button>(R.id.btn_av_filter_info).setOnClickListener {
+            tvAvInfo.text = JNIAvInfo.getAvFilterInfo()
+        }
+        findViewById<Button>(R.id.btn_configuration_info).setOnClickListener {
+            tvAvInfo.text = JNIAvInfo.getConfigurationInfo()
         }
     }
 }
